@@ -4,17 +4,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                npm install
+                sh "npm install"
             }
         }
         stage('Test') {
             steps {
-                npm test
+                sh "npm test"
             }
         }
         stage('Deploy') {
             steps {
-                docker build -t nodedev:v1.0.
+                sh "docker build -t nodedev:v1.0 ."
             }
         }
     }
