@@ -17,6 +17,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker build -t nodemain:v1.0 .'
+                sh "trivy image --exit-code 0 --severity HIGH,CRITICAL nodemain:v1.0" 
+                // This will return 0 despite found vulnurabilities
             }
         }
         stage('Push to Docker Hub') {
