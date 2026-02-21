@@ -9,7 +9,18 @@ pipeline {
                 sh 'hadolint Dockerfile || true'// Won't fail if errors are found
             }
         }
+        // stage('Build') {
+        //     steps {
+        //         sh 'npm install'
+        //     }
+        // }
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:20-alpine'
+                    args '-u root'
+                }
+            }
             steps {
                 sh 'npm install'
             }
