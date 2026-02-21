@@ -4,7 +4,18 @@ pipeline {
         nodejs 'node'
     }
     stages {
+        stage('Lint Dockerfile') {
+            steps {
+                sh 'hadolint Dockerfile || true'// Won't fail if errors are found
+            }
+        }
         stage('Build') {
+            agent {
+                docker {
+                    image 'node:20-alpine'
+                    args '-u root'
+                }
+            }
             steps {
                 sh 'npm install'
             }
@@ -17,6 +28,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 sh 'docker build -t nodedev:v1.0 .'
+                sh "trivy image --exit-code 0 --severity HIGH,CRITICAL nodedev:v1.0" 
+                // This will return 0 despite found vulnurabilities
             }
         }
         stage('Push to Docker Hub') {
