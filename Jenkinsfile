@@ -38,7 +38,7 @@ pipeline {
               if (env.BRANCH_NAME == 'main') {
                 build job: 'Deploy_to_main', wait: false
               } else if (env.BRANCH_NAME == 'dev') {
-                build job: 'Deploy_to_dev', wail: false
+                build job: 'Deploy_to_dev', wait: false
               }
             }
           }
