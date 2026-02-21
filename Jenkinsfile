@@ -4,6 +4,11 @@ pipeline {
         nodejs 'node'
     }
     stages {
+        stage('Lint Dockerfile') {
+            steps {
+                sh 'hadolint Dockerfile || true'// Won't fail if errors are found
+            }
+        }
         stage('Build') {
             steps {
                 sh 'npm install'
